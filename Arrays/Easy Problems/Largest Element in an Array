@@ -1,0 +1,31 @@
+/*
+ Problem: Find the largest element in an array.
+ 
+ Approach:
+ - Initialize the maximum as the first element.
+ - Traverse the array, updating the maximum whenever a larger element is found.
+ - Return the maximum after checking all elements.
+
+ Time Complexity: O(n)  // We traverse the array once.
+ Space Complexity: O(1) // Only constant extra space is used.
+
+ Example:
+ Input: [2, 5, 1, 8, 3]
+ Output: 8
+*/
+
+class Solution {
+    public static int largest(int[] arr) {
+        int max_ele = arr[0];
+        for (int num : arr) {
+            max_ele = Math.max(max_ele, num);
+        }
+        return max_ele;
+    }
+
+    // You can test the code with this main method
+    public static void main(String[] args) {
+        int[] arr = {2, 5, 1, 8, 3};
+        System.out.println("Largest element: " + largest(arr));
+    }
+}
