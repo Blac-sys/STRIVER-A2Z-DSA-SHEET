@@ -1,0 +1,47 @@
+/*
+ Problem: 26. Remove Duplicates from Sorted Array
+ Given a sorted integer array, remove the duplicates in-place such that each unique 
+ element appears only once and return the number of unique elements.
+ 
+ Approach:
+ - Since the array is sorted, duplicates will always appear together.
+ - Use two pointers:
+   - `i` keeps track of the position of the last unique element.
+   - `j` scans the array to find new unique elements.
+ - Whenever a new unique element is found (`nums[j] != nums[i]`), move it to position `i+1`.
+ - Return `i+1` as the count of unique elements.
+ 
+ Time Complexity: O(n)  // Each element is checked once linearly.
+ Space Complexity: O(1) // In-place manipulation without extra data structures.
+ 
+ Example:
+ Input:  [0,0,1,1,1,2,2,3,3,4]
+ Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+*/
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int n = nums.length;
+        int i = 0; // pointer for unique elements
+        for (int j = 0; j < n; j++) {
+            if (nums[i] != nums[j]) {
+                nums[++i] = nums[j];
+            }
+        }
+        return i + 1; // length of unique elements
+    }
+
+    // main method for testing
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] nums1 = {1,1,2};
+        int k1 = sol.removeDuplicates(nums1);
+        System.out.println("k = " + k1); // Output: 2
+        for (int i = 0; i < k1; i++) System.out.print(nums1[i] + " ");
+        System.out.println();
+
+        int[] nums2 = {0,0,1,1,1,2,2,3,3,4};
+        int k2 = sol.removeDuplicates(nums2);
+        System.out.println("k = " + k2); // Output: 5
+        for (int i = 0; i < k2; i++) System.out.print(nums2[i] + " ");
+    }
+}
