@@ -1,0 +1,54 @@
+/*
+ Problem: LeetCode 1752. Check if Array Is Sorted and Rotated
+ Given an array of integers `nums`, check if it can be made sorted (non-decreasing)
+ by rotating it some number of times (possibly 0).
+
+ Approach:
+ - If an array is sorted and rotated, it means there is at most one "drop" 
+   where nums[i] > nums[i+1].
+ - If more than one such drop exists → return false.
+ - If no drop exists → array already sorted, return true.
+ - Special case: to correctly validate rotation, we also need to check the last
+   element with the first element (nums[n-1] > nums[0]).
+ - We don't actually need to rotate the array. Just count the number of drops.
+
+ Time Complexity: O(n)  
+ - We only loop through the array once to count inversions.
+
+ Space Complexity: O(1)  
+ - We use only a constant counter variable.
+
+ Example:
+ Input: [3,4,5,1,2]
+ Output: true
+ Explanation: Can be rotated at index 2 → [1,2,3,4,5] which is sorted.
+
+ Input: [2,1,3,4]
+ Output: false
+ Explanation: More than one drop → cannot be rotation of sorted array.
+*/
+class Solution {
+    public boolean check(int[] nums) {
+        int n = nums.length;
+        if (n == 1) return true;
+
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            // compare current with next, using modulo for circular check
+            if (nums[i] > nums[(i + 1) % n]) {
+                count++;
+            }
+            if (count > 1) return false;
+        }
+        return true;
+    }
+
+    // main method for testing
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(sol.check(new int[]{3, 4, 5, 1, 2})); // true
+        System.out.println(sol.check(new int[]{2, 1, 3, 4}));     // false
+        System.out.println(sol.check(new int[]{1, 2, 3}));        // true
+        System.out.println(sol.check(new int[]{1}));              // true
+    }
+}
