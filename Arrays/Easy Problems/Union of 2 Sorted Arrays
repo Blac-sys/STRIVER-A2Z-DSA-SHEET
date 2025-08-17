@@ -1,0 +1,81 @@
+/*
+ Problem: Union of 2 Sorted Arrays
+ Given two sorted arrays that may contain duplicates, return the union of both arrays
+ in sorted order with distinct elements only.
+ 
+ Approach:
+ - Use two pointers technique to merge both arrays while maintaining sorted order
+ - Compare elements from both arrays and add the smaller one to result
+ - Skip duplicates by checking if the current element is same as the last added element
+ - Handle remaining elements from both arrays after one is exhausted
+ - Since arrays are sorted, duplicates will be adjacent, making it easy to skip them
+ 
+ Time Complexity: O(n + m)  // Single pass through both arrays
+ Space Complexity: O(n + m) // For storing the result (unavoidable for union operation)
+ 
+ Example:
+ Input:  a[] = [1,2,3,4,5], b[] = [1,2,3,6,7]
+ Process: Compare and merge while skipping duplicates
+ Output: [1,2,3,4,5,6,7]
+*/
+import java.util.ArrayList;
+
+class Solution {
+    public static ArrayList<Integer> findUnion(int a[], int b[]) {
+        int n = a.length;
+        int m = b.length;
+        ArrayList<Integer> ans = new ArrayList<>();
+        
+        int i = 0, j = 0;
+        
+        // Merge both arrays while both have elements
+        while (i < n && j < m) {
+            if (a[i] <= b[j]) {
+                // Add a[i] if it's not a duplicate
+                if (ans.size() == 0 || ans.get(ans.size() - 1) != a[i]) {
+                    ans.add(a[i]);
+                }
+                i++;
+            } else {
+                // Add b[j] if it's not a duplicate
+                if (ans.size() == 0 || ans.get(ans.size() - 1) != b[j]) {
+                    ans.add(b[j]);
+                }
+                j++;
+            }
+        }
+        
+        // Add remaining elements from array a
+        while (i < n) {
+            if (ans.size() == 0 || ans.get(ans.size() - 1) != a[i]) {
+                ans.add(a[i]);
+            }
+            i++;
+        }
+        
+        // Add remaining elements from array b
+        while (j < m) {
+            if (ans.size() == 0 || ans.get(ans.size() - 1) != b[j]) {
+                ans.add(b[j]);
+            }
+            j++;
+        }
+        
+        return ans;
+    }
+    
+    // main method for testing
+    public static void main(String[] args) {
+        int[] a1 = {1, 2, 3, 4, 5};
+        int[] b1 = {1, 2, 3, 6, 7};
+        System.out.println(findUnion(a1, b1)); // [1, 2, 3, 4, 5, 6, 7]
+        
+        int[] a2 = {2, 2, 3, 4, 5};
+        int[] b2 = {1, 1, 2, 3, 4};
+        System.out.println(findUnion(a2, b2)); // [1, 2, 3, 4, 5]
+        
+        int[] a3 = {1, 1, 1, 1, 1};
+        int[] b3 = {2, 2, 2, 2, 2};
+        System.out.println(findUnion(a3, b3)); // [1, 2]
+    }
+}
