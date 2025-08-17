@@ -1,0 +1,56 @@
+/*
+ Problem: Find the second largest DISTINCT element in an array.
+ 
+ Approach:
+ - Maintain two variables: max (largest so far) and sec_max (second largest so far).
+ - Traverse the array once:
+    - If current element > max: update sec_max = max, max = current element.
+    - Else if current element < max and current element > sec_max: update sec_max.
+ - If no second largest distinct element exists (e.g., all elements equal or only one distinct value), return -1.
+
+ Time Complexity: O(n)   // Single pass through the array.
+ Space Complexity: O(1)  // Constant extra space.
+
+ Examples:
+ Input: [1, 2, 3, 4, 5]      -> Output: 4
+ Input: [10, 10]             -> Output: -1
+ Input: [-5, -2, -3, -1]     -> Output: -2
+ Input: [5, 5, 4, 4, 4]      -> Output: 4
+*/
+
+class Solution {
+    public static int getSecondLargest(int[] arr) {
+        if (arr == null || arr.length < 2) return -1;
+
+        int max = Integer.MIN_VALUE;
+        int sec_max = Integer.MIN_VALUE;
+
+        for (int num : arr) {
+            if (num > max) {
+                sec_max = max;
+                max = num;
+            } else if (num < max && num > sec_max) {
+                sec_max = num;
+            }
+        }
+        return sec_max == Integer.MIN_VALUE ? -1 : sec_max;
+    }
+
+    // You can test the code with this main method
+    public static void main(String[] args) {
+        int[][] tests = {
+            {1, 2, 3, 4, 5},
+            {10, 10},
+            {-5, -2, -3, -1},
+            {5, 5, 4, 4, 4},
+            {7},
+            {7, 7, 7},
+            {2, 1}
+        };
+
+        for (int[] arr : tests) {
+            System.out.println(java.util.Arrays.toString(arr) +
+                " -> Second largest: " + getSecondLargest(arr));
+        }
+    }
+}
