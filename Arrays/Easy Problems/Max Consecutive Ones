@@ -1,0 +1,61 @@
+/*
+ Problem: Given a binary array `nums` (containing only 0s and 1s), find the maximum length of a contiguous subarray that consists only of 1s.
+ Approach:
+ - We can solve this in a single pass through the array.
+ - We need two variables: one to keep track of the overall maximum number of consecutive ones found so far (`max_ones`), and another to count the consecutive ones in the current window (`curr_ones`).
+ - Iterate through each number in the array.
+ - If the number is 1, increment `curr_ones`.
+ - If the number is 0, it means the sequence of ones is broken. At this point, compare `curr_ones` with `max_ones` and update `max_ones` if `curr_ones` is larger. Then, reset `curr_ones` to 0.
+ - After the loop finishes, there might be a trailing sequence of ones (e.g., the array ends with `1,1,1`). This last sequence's count needs to be compared with `max_ones` one final time.
+ - Return `max_ones`.
+ Time Complexity: O(n) because we iterate through the array exactly once.
+ Space Complexity: O(1) because we only use a constant number of variables to store the counts, regardless of the input array size.
+ Example:
+ Input: nums = [1,1,0,1,1,1]
+ Output: 3
+*/
+class Solution {
+    // Complete solution implementation
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int max_ones = 0;
+        int curr_ones = 0;
+        
+        for (int num : nums) {
+            if (num == 1) {
+                // Increment the count for the current sequence of ones.
+                curr_ones++;
+            } else {
+                // Sequence is broken by a zero.
+                // Update the overall max if the current sequence was the longest so far.
+                max_ones = Math.max(max_ones, curr_ones);
+                // Reset the current sequence count.
+                curr_ones = 0;
+            }
+        }
+        
+        // Final check in case the longest sequence is at the end of the array.
+        max_ones = Math.max(max_ones, curr_ones);
+        
+        return max_ones;
+    }
+    
+    // main method for testing
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        
+        // Example 1
+        int[] nums1 = {1, 1, 0, 1, 1, 1};
+        System.out.println("Input: [1,1,0,1,1,1]");
+        System.out.println("Output: " + sol.findMaxConsecutiveOnes(nums1)); // Expected: 3
+
+        // Example 2
+        int[] nums2 = {1, 0, 1, 1, 0, 1};
+        System.out.println("Input: [1,0,1,1,0,1]");
+        System.out.println("Output: " + sol.findMaxConsecutiveOnes(nums2)); // Expected: 2
+        
+        // Edge case: all ones
+        int[] nums3 = {1, 1, 1, 1};
+        System.out.println("Input: [1,1,1,1]");
+        System.out.println("Output: " + sol.findMaxConsecutiveOnes(nums3)); // Expected: 4
+    }
+}
