@@ -1,0 +1,59 @@
+/*
+ Problem: Given an array `nums` containing n distinct numbers in the range [0, n], find the only number in the range that is missing from the array.
+ Approach:
+ - The problem can be solved efficiently using the bitwise XOR operation.
+ - The core idea is that `x ^ x = 0` and `x ^ 0 = x`.
+ - We can find the XOR sum of all numbers from 0 to n. Let's call this `expectedXor`.
+ - Then, we find the XOR sum of all numbers in the input array `nums`. Let's call this `actualXor`.
+ - If we XOR `expectedXor` and `actualXor`, all the numbers that are present in both the complete range and the array will cancel each other out (since they appear twice).
+ - The final result will be the number that was present in the complete range but missing from the array.
+ - The implementation combines these steps: initialize a result `ans`, XOR it with all numbers from 0 to n, and then XOR it with all numbers in `nums`. The final value of `ans` is the missing number.
+ Time Complexity: O(n) because we iterate through the numbers from 0 to n and the elements of the array once.
+ Space Complexity: O(1) because we only use a constant amount of extra space for variables, regardless of the input size.
+ Example:
+ Input: nums = [3,0,1]
+ Output: 2
+ Explanation: n = 3. The full range is [0, 1, 2, 3].
+ The XOR sum of the range is (0^1^2^3).
+ The XOR sum of the array is (3^0^1).
+ (0^1^2^3) ^ (3^0^1) = (0^0)^(1^1)^2^(3^3) = 0^0^2^0 = 2.
+*/
+class Solution {
+    // Complete solution implementation
+    public int missingNumber(int[] nums) {
+        int n = nums.length;
+        int ans = 0;
+
+        // XOR with all numbers in the expected range [0, n]
+        for (int i = 0; i <= n; i++) {
+            ans = ans ^ i;
+        }
+
+        // XOR with all numbers in the given array
+        for (int i = 0; i < n; i++) {
+            ans = ans ^ nums[i];
+        }
+
+        return ans;
+    }
+    
+    // main method for testing
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        
+        // Example 1
+        int[] nums1 = {3, 0, 1};
+        System.out.println("Input: [3,0,1]");
+        System.out.println("Output: " + sol.missingNumber(nums1)); // Expected: 2
+
+        // Example 2
+        int[] nums2 = {0, 1};
+        System.out.println("Input: [0,1]");
+        System.out.println("Output: " + sol.missingNumber(nums2)); // Expected: 2
+
+        // Example 3
+        int[] nums3 = {9,6,4,2,3,5,7,0,1};
+        System.out.println("Input: [9,6,4,2,3,5,7,0,1]");
+        System.out.println("Output: " + sol.missingNumber(nums3)); // Expected: 8
+    }
+}
